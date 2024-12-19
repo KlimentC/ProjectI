@@ -41,14 +41,12 @@ jobs:
     needs: ScanForSecrets
     steps:
       - uses: actions/checkout@v4
-        with:
-          path: .
-
+      - run: |
+          # Copy the .editorconfig from dotFiles to the root directory
+          cp dotFiles/.editorconfig ./.editorconfig
       - uses: editorconfig-checker/action-editorconfig-checker@main
-        with:
-          editorconfig-file: dotFiles/.editorconfig
-
       - run: editorconfig-checker
+
 
   PylintJob:
     name: Pylint Check for Python code
