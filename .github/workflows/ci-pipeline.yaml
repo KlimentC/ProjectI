@@ -1,5 +1,5 @@
 name: GitHub Actions Workflow Kliment Ch.
-    
+
 on:
   push:
     branches:
@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - main
-    
+
 jobs:
   ScanForSecrets:
     name: GitLeaks check for secrets
