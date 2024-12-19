@@ -63,7 +63,9 @@ jobs:
           pip install -r app/dependency/requirements.txt
       - name: Run Pylint
         run: |
-          cd app && pylint -d C0114,C0115,C0116 $(git ls-files '*.py')
+              export PYTHONPATH=$(pwd)/app
+              cd app
+              pylint -d C0114,C0115,C0116 $(git ls-files '*.py')
 
   PythonBlackJob:
     name: Python Black Check
