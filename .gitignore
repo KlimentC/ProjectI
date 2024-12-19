@@ -1,6 +1,4 @@
 app/__pycache__/app.cpython-38.pyc
 app/unittests/__pycache__/test_app.cpython-38.pyc
-dotFiles/.pre-commit-hook.yaml
-dotFiles/.lock
-dotFiles/.pre-commit-config.yaml
-dotFiles/db.db
+
+
