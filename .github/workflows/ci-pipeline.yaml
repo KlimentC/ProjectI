@@ -41,7 +41,13 @@ jobs:
     needs: ScanForSecrets
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: .
+
       - uses: editorconfig-checker/action-editorconfig-checker@main
+        with:
+          editorconfig-file: dotFiles/.editorconfig
+
       - run: editorconfig-checker
 
   PylintJob:
