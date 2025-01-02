@@ -1,0 +1,7 @@
+redact = true
+exit_code = 2
+report_format = "sarif"
+report_path = "results.sarif"
+log_level = "debug"
+log_opts = ["--no-merges"]
+first_parent = true
