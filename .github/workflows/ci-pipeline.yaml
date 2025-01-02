@@ -22,9 +22,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          allowlist-paths: |
-            .github/workflows/ci-pipeline.yml
-            ansible/dockerBPRV.yml
+          config-path: .github/gitleaks.toml
           args: |
             --redact
             --exit-code=2

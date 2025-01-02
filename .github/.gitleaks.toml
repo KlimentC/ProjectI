@@ -1,0 +1,3 @@
+[[allowlist]]
+  description = "Ignore CI/CD pipeline files"
+  paths = ["^\\.github/workflows/ci-pipeline\\.yml$", "^ansible/dockerBPRV\\.yml$"]
