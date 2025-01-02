@@ -113,14 +113,11 @@ jobs:
         with:
           args: >
             --severity-threshold=critical
-            --exclude-vuln=SNYK-PYTHON-WERKZEUG-8309092
-            --exclude-vuln=SNYK-PYTHON-WERKZEUG-6808933
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Change directory to app/dependency and run Snyk
-        run: |
-          cd app/dependency
+      - name: Run Snyk
+        run:
           snyk test --severity-threshold=critical --exclude-vuln=SNYK-PYTHON-WERKZEUG-8309092 --exclude-vuln=SNYK-PYTHON-WERKZEUG-6808933
         env:
             SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
