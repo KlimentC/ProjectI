@@ -88,7 +88,7 @@ jobs:
         run: markdownlint **/*.md
 
   UnitTestSnyk:
-    name: Units,Snyk,SonarCloud
+    name: Units, Snyk, SonarCloud
     runs-on: ubuntu-latest
     needs: [EditorConfig, PylintJob, PythonBlackJob, MarkdownLintJob]
     steps:
@@ -105,23 +105,25 @@ jobs:
           pip install -r app/dependency/requirements.txt
           pip install coverage
 
+      - name: List files in app/dependency to verify requirements.txt
+        run: ls -R app/dependency
+
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python@master
-        env:
-            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: >
             --severity-threshold=critical
             --exclude-vuln=SNYK-PYTHON-WERKZEUG-8309092
             --exclude-vuln=SNYK-PYTHON-WERKZEUG-6808933
-
-      - name: Change directory to app/dependency and run Snyk
-        run: |
-            cd app/dependency
-            snyk test --severity-threshold=critical --exclude-vuln=SNYK-PYTHON-WERKZEUG-8309092 --exclude-vuln=SNYK-PYTHON-WERKZEUG-6808933
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
+      - name: Change directory to app/dependency and run Snyk
+        run: |
+          cd app/dependency
+          snyk test --severity-threshold=critical --exclude-vuln=SNYK-PYTHON-WERKZEUG-8309092 --exclude-vuln=SNYK-PYTHON-WERKZEUG-6808933
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: Run tests with coverage and generate report
         run: |
@@ -142,6 +144,7 @@ jobs:
             -Dsonar.python.coverage.reportPaths=coverage.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
+
 
   DockerBuildAndPush:
     name: Docker Build, Scan with Trivy, and Push
