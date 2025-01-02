@@ -22,7 +22,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          config-path: .github/gitleaks.toml
+          args: |
+            --redact
+            --exit-code=2
+            --report-format=sarif
+            --report-path=results.sarif
+            --log-level=debug
+            --log-opts=--no-merges
+            --first-parent
+            ${GITHUB_BASE_REF}..${GITHUB_SHA}
+
 
   EditorConfig:
     name: Editor Config Check
