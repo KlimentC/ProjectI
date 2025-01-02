@@ -1,6 +1,7 @@
 import unittest
 from app.app import app
 
+
 class TestApp(unittest.TestCase):
     def setUp(self):
         """Set up the test client before each test."""

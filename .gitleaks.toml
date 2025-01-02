@@ -1,0 +1,28 @@
+# .gitleaks.toml
+
+# Redact sensitive data
+redact = true
+
+# Exit code on finding secrets
+exit_code = 2
+
+# Define the report format
+report = {
+    format = "sarif",
+    path = "results.sarif"
+}
+
+# Log level for Gitleaks (can be 'debug', 'info', 'warn', 'error')
+log_level = "debug"
+
+# Define the paths to include/exclude
+allowlist_paths = [
+    ".github/workflows/ci-pipeline.yml",
+    "ansible/dockerBPRV.yml"
+]
+
+# Ignore merge commits
+no_merges = true
+
+# Scan only the first parent of each merge commit
+first_parent = true
