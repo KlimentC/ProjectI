@@ -118,17 +118,6 @@ jobs:
             --exclude-vuln=SNYK-PYTHON-WERKZEUG-8309092
             --exclude-vuln=SNYK-PYTHON-WERKZEUG-6808933
 
-
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/python@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: >
-            --severity-threshold=critical
-            --exclude-vuln=SNYK-PYTHON-WERKZEUG-8309092
-            --exclude-vuln=SNYK-PYTHON-WERKZEUG-6808933
-
       - name: Run tests with coverage and generate report
         run: |
           coverage run -m unittest discover -s app/unittests -p "*.py"
@@ -136,19 +125,18 @@ jobs:
 
       - name: List files and coverage
         run: |
-          ls -R
           cat coverage.xml
 
       - name: Run SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@v2.1.0
+        uses: SonarSource/sonarqube-scan-action@v4.1.0
         with:
+          projectBaseDir: .
           args: >
             -Dsonar.organization=klimentc
             -Dsonar.projectKey=KlimentC_devops-programme
             -Dsonar.python.coverage.reportPaths=coverage.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
-
 
   DockerBuildAndPush:
     name: Docker Build, Scan with Trivy, and Push
