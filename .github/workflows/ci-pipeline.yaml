@@ -155,11 +155,11 @@ jobs:
         with:
           context: .
           push: false
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/ProjectI:${{ github.sha }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}projecti:${{ github.sha }}
       - name: Scan with Trivy
         uses: aquasecurity/trivy-action@0.28.0
         with:
-          image-ref: "${{ secrets.DOCKERHUB_USERNAME }}/my-docker-app:${{ github.sha }}"
+          image-ref: "${{ secrets.DOCKERHUB_USERNAME }}/projecti:${{ github.sha }}"
           format: "table"
           exit-code: "1"
           ignore-unfixed: true
@@ -168,4 +168,4 @@ jobs:
       - name: Push Docker image
         if: success()
         run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-docker-app:${{ github.sha }}
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/projecti:${{ github.sha }}
