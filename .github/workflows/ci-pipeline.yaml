@@ -88,7 +88,7 @@ jobs:
         run: markdownlint **/*.md
 
   UnitTestSnyk:
-    name: Units,Snyk,SonarCloud 
+    name: Units,Snyk,SonarCloud
     runs-on: ubuntu-latest
     needs: [EditorConfig, PylintJob, PythonBlackJob, MarkdownLintJob]
     steps:
