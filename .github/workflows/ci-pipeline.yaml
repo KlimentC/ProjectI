@@ -123,7 +123,7 @@ jobs:
           cd app/dependency
           snyk test --severity-threshold=critical --exclude-vuln=SNYK-PYTHON-WERKZEUG-8309092 --exclude-vuln=SNYK-PYTHON-WERKZEUG-6808933
         env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: Run tests with coverage and generate report
         run: |
