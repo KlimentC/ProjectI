@@ -104,7 +104,9 @@ jobs:
         run: |
           pip install -r app/dependency/requirements.txt
           pip install coverage
-
+  
+      - name: Change directory to dependency folder
+        run: cd app/dependency
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python@master
         env:
@@ -114,7 +116,7 @@ jobs:
             --severity-threshold=critical
             --exclude-vuln=SNYK-PYTHON-WERKZEUG-8309092
             --exclude-vuln=SNYK-PYTHON-WERKZEUG-6808933
-          working-directory: ./app/dependency
+        
 
       - name: Run tests with coverage and generate report
         run: |
