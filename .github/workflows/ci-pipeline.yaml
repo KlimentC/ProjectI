@@ -105,22 +105,15 @@ jobs:
           pip install -r app/dependency/requirements.txt
           pip install coverage
 
-      - name: List files in app/dependency to verify requirements.txt
-        run: ls -R app/dependency
-
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: >
             --severity-threshold=critical
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-
-      - name: Run Snyk
-        run:
-          snyk test --severity-threshold=critical --exclude-vuln=SNYK-PYTHON-WERKZEUG-8309092 --exclude-vuln=SNYK-PYTHON-WERKZEUG-6808933
-        env:
-            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+            --exclude-vuln=SNYK-PYTHON-WERKZEUG-8309092
+            --exclude-vuln=SNYK-PYTHON-WERKZEUG-6808933
 
       - name: Run tests with coverage and generate report
         run: |
