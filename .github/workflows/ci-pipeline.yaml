@@ -169,3 +169,28 @@ jobs:
         if: success()
         run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/projecti:${{ github.sha }}
+
+  UpdateKustomization:
+    name: Update Kustomize with new image tag
+    runs-on: ubuntu-latest
+    needs: DockerBuildAndPush
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Prevent endless loop
+        run: |
+          git log -1 --pretty=%B | grep "Update kustomization.yaml" && exit 0 || echo "Proceeding..."
+      - name: Update Kustomize Image
+        run: |
+          TAG=$(git rev-parse --short HEAD)
+          cd ProjectI/deployment
+          kustomize edit set image klimentchakarovski/projecti=klimentchakarovski/projecti:$TAG
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add ProjectI/deployment/kustomization.yaml
+          git commit -m "Update kustomization.yaml with new image tag $TAG"
+          git push
