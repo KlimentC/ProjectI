@@ -12,170 +12,170 @@ permissions:
   contents: write
 
 jobs:
-#  ScanForSecrets:
-#    name: GitLeaks check for secrets
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#        with:
-#          fetch-depth: 0
-#
-#      - name: List files in the repository
-#        run: |
-#          ls -la
+  ScanForSecrets:
+    name: GitLeaks check for secrets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-#      - name: Run Gitleaks
-#        uses: gitleaks/gitleaks-action@v2
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: List files in the repository
+        run: |
+          ls -la
 
-#  EditorConfig:
-#    name: Editor Config Check
-#    runs-on: ubuntu-latest
-#    needs: ScanForSecrets
-#    steps:
-#      - uses: actions/checkout@v4
-#      - run: |
-#          # Copy the .editorconfig from dotFiles to the root directory
-#          cp dotFiles/.editorconfig ./.editorconfig
-#      - uses: editorconfig-checker/action-editorconfig-checker@main
-#      - run: editorconfig-checker
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  EditorConfig:
+    name: Editor Config Check
+    runs-on: ubuntu-latest
+    needs: ScanForSecrets
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          # Copy the .editorconfig from dotFiles to the root directory
+          cp dotFiles/.editorconfig ./.editorconfig
+      - uses: editorconfig-checker/action-editorconfig-checker@main
+      - run: editorconfig-checker
 
-#  PylintJob:
-#    name: Pylint Check for Python code
-#    runs-on: ubuntu-latest
-#    needs: ScanForSecrets
-#    steps:
-#      - uses: actions/checkout@v4
-#      - name: Setup Python
-#        uses: actions/setup-python@v5
-#        with:
-#          python-version: "3.13"
-#      - name: Install dependencies
-#        run: |
-#          pip install -r app/dependency/requirements.txt
-#      - name: Run Pylint
-#        run: |
-#              export PYTHONPATH=$(pwd)/app
-#              cd app
-#              pylint -d C0114,C0115,C0116 $(git ls-files '*.py')
+  PylintJob:
+    name: Pylint Check for Python code
+    runs-on: ubuntu-latest
+    needs: ScanForSecrets
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install dependencies
+        run: |
+          pip install -r app/dependency/requirements.txt
+      - name: Run Pylint
+        run: |
+              export PYTHONPATH=$(pwd)/app
+              cd app
+              pylint -d C0114,C0115,C0116 $(git ls-files '*.py')
 
-#  PythonBlackJob:
-#    name: Python Black Check
-#    runs-on: ubuntu-latest
-#    needs: ScanForSecrets
-#    steps:
-#      - uses: actions/checkout@v4
-#      - name: Setup Python
-#        uses: actions/setup-python@v5
-#        with:
-#          python-version: "3.13"
-#      - name: Install Black
-#        run: pip install black
-#      - name: Run Black
-#        run: black --check .
+  PythonBlackJob:
+    name: Python Black Check
+    runs-on: ubuntu-latest
+    needs: ScanForSecrets
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install Black
+        run: pip install black
+      - name: Run Black
+        run: black --check .
 
-#  MarkdownLintJob:
-#    name: Markdown Lint Check
-#    runs-on: ubuntu-latest
-#    needs: ScanForSecrets
-#    steps:
-#      - uses: actions/checkout@v4
-#      - name: Install npm
-#        run: |
-#          sudo apt-get install -y npm
-#      - name: Install Markdown Lint
-#        run: npm install -g markdownlint-cli
-#      - name: Run Markdown Lint
-#        run: markdownlint **/*.md
+  MarkdownLintJob:
+    name: Markdown Lint Check
+    runs-on: ubuntu-latest
+    needs: ScanForSecrets
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install npm
+        run: |
+          sudo apt-get install -y npm
+      - name: Install Markdown Lint
+        run: npm install -g markdownlint-cli
+      - name: Run Markdown Lint
+        run: markdownlint **/*.md
 
-#  UnitTestSnyk:
-#    name: Units, Snyk, SonarCloud
-#    runs-on: ubuntu-latest
-#    needs: [EditorConfig, PylintJob, PythonBlackJob, MarkdownLintJob]
-#    steps:
-#      - name: Checkout repo
-#        uses: actions/checkout@v4
+  UnitTestSnyk:
+    name: Units, Snyk, SonarCloud
+    runs-on: ubuntu-latest
+    needs: [EditorConfig, PylintJob, PythonBlackJob, MarkdownLintJob]
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-#      - name: Setup Python
-#        uses: actions/setup-python@v5
- #       with:
- #         python-version: "3.13"
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
 
- #     - name: Install dependencies
- #       run: |
- #         pip install -r app/dependency/requirements.txt
- #         pip install coverage
+      - name: Install dependencies
+        run: |
+          pip install -r app/dependency/requirements.txt
+          pip install coverage
 
- #     - name: Copy requirements.txt to root so Snyk can test
- #       run: cp app/dependency/requirements.txt ./requirements.txt
+      - name: Copy requirements.txt to root so Snyk can test
+        run: cp app/dependency/requirements.txt ./requirements.txt
 
- #     - name: Run Snyk to check for vulnerabilities
-  #      uses: snyk/actions/python@master
-  #      env:
-  #        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-  #      with:
-  #        args: >
-  #          --severity-threshold=critical
- #           --exclude-vuln=SNYK-PYTHON-WERKZEUG-8309092
- #           --exclude-vuln=SNYK-PYTHON-WERKZEUG-6808933
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/python@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: >
+            --severity-threshold=critical
+            --exclude-vuln=SNYK-PYTHON-WERKZEUG-8309092
+            --exclude-vuln=SNYK-PYTHON-WERKZEUG-6808933
 
-  #    - name: Run tests with coverage and generate report
-  #      run: |
-  #        coverage run -m unittest discover -s app/unittests -p "*.py"
-   #       coverage xml -o coverage.xml
+      - name: Run tests with coverage and generate report
+        run: |
+          coverage run -m unittest discover -s app/unittests -p "*.py"
+          coverage xml -o coverage.xml
 
-    #  - name: List coverage
-    #    run: |
-    #      cat coverage.xml
+      - name: List coverage
+        run: |
+          cat coverage.xml
 
-     # - name: Run SonarCloud Scan
-     #   uses: SonarSource/sonarqube-scan-action@v4.1.0
-     #   with:
-     #     projectBaseDir: .
-     #     args: >
-      #      -Dsonar.organization=klimentc
-      #      -Dsonar.projectKey=KlimentC_devops-programme
-      #      -Dsonar.python.coverage.reportPaths=coverage.xml
-      #  env:
-      #    SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
+      - name: Run SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v4.1.0
+        with:
+          projectBaseDir: .
+          args: >
+            -Dsonar.organization=klimentc
+            -Dsonar.projectKey=KlimentC_devops-programme
+            -Dsonar.python.coverage.reportPaths=coverage.xml
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
 
-#  DockerBuildAndPush:
-#    name: Docker Build, Scan with Trivy, and Push
-#    runs-on: ubuntu-latest
-#    needs: [UnitTestSnyk]
- #   steps:
- #     - name: Checkout code
- #       uses: actions/checkout@v4
- #     - name: Log in to Docker Hub
- #       uses: docker/login-action@v2
- #       with:
- #         username: ${{ secrets.DOCKERHUB_USERNAME }}
- #         password: ${{ secrets.DOCKERHUB_TOKEN }}
- #     - name: Build Docker image
- #       uses: docker/build-push-action@v6
- #       with:
- #         context: .
- #         push: false
- #         tags: ${{ secrets.DOCKERHUB_USERNAME }}/projecti:${{ github.sha }}
- #     - name: Scan with Trivy
- #       uses: aquasecurity/trivy-action@0.28.0
- #       with:
- #         image-ref: "${{ secrets.DOCKERHUB_USERNAME }}/projecti:${{ github.sha }}"
- #         format: "table"
- #         exit-code: "1"
- #         ignore-unfixed: true
- #         vuln-type: "os,library"
- #         severity: "CRITICAL"
- #     - name: Push Docker image
- #       if: success()
- #       run: |
- #         docker push ${{ secrets.DOCKERHUB_USERNAME }}/projecti:${{ github.sha }}
+  DockerBuildAndPush:
+    name: Docker Build, Scan with Trivy, and Push
+    runs-on: ubuntu-latest
+    needs: [UnitTestSnyk]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/projecti:${{ github.sha }}
+      - name: Scan with Trivy
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: "${{ secrets.DOCKERHUB_USERNAME }}/projecti:${{ github.sha }}"
+          format: "table"
+          exit-code: "1"
+          ignore-unfixed: true
+          vuln-type: "os,library"
+          severity: "CRITICAL"
+      - name: Push Docker image
+        if: success()
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/projecti:${{ github.sha }}
 
   UpdateKustomization:
     name: Update Kustomize with new image tag
     runs-on: ubuntu-latest
+    needs: [DockerBuildAndPush]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
