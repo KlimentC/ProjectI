@@ -191,6 +191,6 @@ jobs:
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'actions@github.com'
-          git add ProjectI/deployment/kustomization.yaml
+          git add deployment/kustomization.yaml
           git commit -m "Update kustomization.yaml with new image tag $TAG"
           git push
