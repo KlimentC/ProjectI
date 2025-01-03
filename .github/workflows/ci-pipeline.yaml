@@ -185,7 +185,7 @@ jobs:
         run: |
           ls -ltr
           TAG=$(git rev-parse --short HEAD)
-          cd ProjectI/deployment
+          cd deployment
           kustomize edit set image klimentchakarovski/projecti=klimentchakarovski/projecti:$TAG
       - name: Commit and Push Changes
         run: |
