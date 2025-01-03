@@ -1,0 +1,20 @@
+- name: Install required packages on Amazon Linux 2023
+  hosts: my_ec2
+  become: yes
+  tasks:
+    - name: Update package index
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+
+    - name: Install Python 3 and pip
+      ansible.builtin.dnf:
+        name:
+          - python3
+          - python3-pip
+        state: present
+
+    - name: Install pytest using pip3
+      ansible.builtin.pip:
+        name: pytest
+        executable: pip3
