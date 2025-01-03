@@ -181,15 +181,18 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: Prevent endless loop
         run: |
           git log -1 --pretty=%B | grep "Update kustomization.yaml" && exit 0 || echo "Proceeding..."
+
       - name: Update Kustomize Image
         run: |
-          ls -ltr
-          TAG=$(git rev-parse --short HEAD)
+          TAG=$(git rev-parse HEAD)  # Full SHA
+          echo "Using commit SHA: $TAG"
           cd deployment
           kustomize edit set image klimentchakarovski/projecti=klimentchakarovski/projecti:$TAG
+
       - name: Commit and Push Changes
         run: |
           git config --global user.name 'GitHub Actions'
