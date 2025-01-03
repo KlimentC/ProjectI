@@ -6,4 +6,4 @@ resources:
 images:
 - name: klimentchakarovski/projecti
   newName: klimentchakarovski/projecti
-  newTag: ecc3f65
+  newTag: af141cb
