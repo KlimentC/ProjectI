@@ -1,7 +1,7 @@
 variable "instance_name" {
   description = "Value of the Name tag for the EC2 instance"
   type        = string
-  default     = "MyInstanceServer"
+  default     = "UnitTesting"
 }
 
 variable "machine_type" {
@@ -11,9 +11,9 @@ variable "machine_type" {
 }
 
 variable "ami_id" {
-  description = "AMI ID to be used (default is AWS Linux image)"
+  description = "AMI ID to be used (default will be AWS Linux image)"
   type        = string
-  default     = "ami-0453ec754f44f9a4a"
+  default     = "ami-01816d07b1128cd2d"
 }
 
 variable "key_name" {

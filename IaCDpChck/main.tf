@@ -1,74 +1,69 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
-
-  required_version = ">= 1.2.0"
-}
-
 provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_security_group" "ssh_access" {
-  name        = "ssh_access"
-  description = "Allow SSH access to the EC2 instance"
-  tags = {
-    Name = "ssh_access"
+# Security Group for SSH and HTTP/HTTPS/Custom Ports
+resource "aws_security_group" "allow_inbound" {
+  name        = "allow-inbound"
+  description = "Allow inbound SSH (22) and HTTP/HTTPS/Custom Ports (80, 443, 8080, 8081)"
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 8081
+    to_port     = 8081
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
-resource "aws_security_group_rule" "ssh_rule" {
-  type              = "ingress"
-  security_group_id = aws_security_group.ssh_access.id
-  cidr_blocks       = ["0.0.0.0/0"]
-  from_port         = 22
-  to_port           = 22
-  protocol          = "tcp"
-  description       = "Allow SSH access"
-}
-
-resource "aws_security_group" "dtrack_access" {
-  name        = "dtrack_access"
-  description = "Allow access to Dependency-Track ports"
-  tags = {
-    Name = "dtrack_access"
-  }
-}
-
-resource "aws_security_group_rule" "dtrack_api_rule" {
-  type              = "ingress"
-  security_group_id = aws_security_group.dtrack_access.id
-  cidr_blocks       = ["0.0.0.0/0"]
-  from_port         = 8081
-  to_port           = 8081
-  protocol          = "tcp"
-  description       = "Allow access to Dependency-Track API"
-}
-
-resource "aws_security_group_rule" "dtrack_frontend_rule" {
-  type              = "ingress"
-  security_group_id = aws_security_group.dtrack_access.id
-  cidr_blocks       = ["0.0.0.0/0"]
-  from_port         = 8080
-  to_port           = 8080
-  protocol          = "tcp"
-  description       = "Allow access to Dependency-Track Frontend"
-}
-
-resource "aws_instance" "myinstanceserver" {
-  ami                    = var.ami_id
-  instance_type          = var.machine_type
+# EC2 Instance
+resource "aws_instance" "my_instance" {
+  ami           = var.ami_id
+  instance_type = var.machine_type
+  subnet_id     = "subnet-0e35581f24e674f72"
   vpc_security_group_ids = [
-    aws_security_group.ssh_access.id,
-    aws_security_group.dtrack_access.id
+    aws_security_group.allow_inbound.id
   ]
-  key_name               = var.key_name
+  key_name      = var.key_name
 
   tags = {
     Name = var.instance_name
   }
+
+  availability_zone = "us-east-1b"
 }
+

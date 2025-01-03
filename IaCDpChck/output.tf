@@ -1,28 +1,19 @@
 output "instance_id" {
-  description = "ID of the EC2 instance"
-  value       = aws_instance.myinstanceserver.id
+  value = aws_instance.my_instance.id
 }
 
 output "instance_public_ip" {
-  description = "Public IP address of the EC2 instance"
-  value       = aws_instance.myinstanceserver.public_ip
+  value = aws_instance.my_instance.public_ip
 }
 
 output "instance_private_ip" {
-  description = "Private IP address of the EC2 instance"
-  value       = aws_instance.myinstanceserver.private_ip
+  value = aws_instance.my_instance.private_ip
 }
 
 output "instance_availability_zone" {
-  description = "Availability Zone of the EC2 instance"
-  value       = aws_instance.myinstanceserver.availability_zone
+  value = aws_instance.my_instance.availability_zone
 }
 
 output "instance_security_groups" {
-  description = "Security Group IDs attached to the EC2 instance"
-  value       = aws_instance.myinstanceserver.vpc_security_group_ids
+  value = aws_instance.my_instance.vpc_security_group_ids
 }
-
-
-
-
