@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: projecti
-          image: klimentchakarovski/projecti  
+          image: klimentchakarovski/projecti
           ports:
             - containerPort: 3000
