@@ -11,9 +11,9 @@ variable "machine_type" {
 }
 
 variable "ami_id" {
-  description = "AMI ID to be used (default will be AWS Linux image)"
+  description = "AMI ID from the custom image that is created with packer"
   type        = string
-  default     = "ami-01816d07b1128cd2d"
+  default     = "ami-0c62f0021c1721996"
 }
 
 variable "key_name" {

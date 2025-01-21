@@ -1,5 +1,6 @@
+---
 - name: Install required packages on Amazon Linux 2023
-  hosts: my_ec2
+  hosts: all
   become: yes
   tasks:
     - name: Update package index
@@ -14,7 +15,27 @@
           - python3-pip
         state: present
 
-    - name: Install pytest using pip3
+    - name: Install Git
+      ansible.builtin.dnf:
+        name: git
+        state: present
+
+    - name: Copy requirements.txt to the remote machine
+      ansible.builtin.copy:
+        src: "requirements.txt"
+        dest: "/home/ec2-user/requirements.txt"
+
+    - name: Check if requirements.txt exists on remote machine
+      ansible.builtin.stat:
+        path: "/home/ec2-user/requirements.txt"
+      register: result
+
+    - name: Show result of file check
+      ansible.builtin.debug:
+        var: result
+
+    - name: Install dependencies from requirements file
       ansible.builtin.pip:
-        name: pytest
+        requirements: "/home/ec2-user/requirements.txt"
         executable: pip3
+      when: result.stat.exists
