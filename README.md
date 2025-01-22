@@ -6,6 +6,7 @@ and deployment using DevOps methodologies.
 Business Value:
 
 Increased Efficiency:
+
 - Automated deployments: Minimize manual
     intervention, reducing human error.
 - CI/CD: Automate build, test, and
