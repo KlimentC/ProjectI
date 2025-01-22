@@ -216,21 +216,16 @@ jobs:
           git commit -m "Update kustomization.yaml with new image tag $TAG"
           git push
 
-  Notify-Success:
-    name: Notify Success
+  Notify-Completion:
+    name: Notify Completion (Success/Failure)
     runs-on: ubuntu-latest
     needs: [UpdateKustomization]
-    if: success()
     steps:
-      - name: Send success notification to Slack
+      - name: Send completion notification to Slack
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Success"}' $SLACK_WEBHOOK_URL
+          if [[ ${{ job.status }} == 'success' ]]; then
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow completed"}' $SLACK_WEBHOOK_URL
+          else
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow failed"}' $SLACK_WEBHOOK_URL
+          fi
 
-  Notify-Failure:
-    name: Notify Failure
-    runs-on: ubuntu-latest
-    if: failure()
-    steps:
-      - name: Send failure notification to Slack
-        run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Failed"}' $SLACK_WEBHOOK_URL
