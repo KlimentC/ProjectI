@@ -225,13 +225,13 @@ jobs:
     steps:
       - name: Send completion notification to Slack
         run: |
-          if [[ ${{ needs.UpdateKustomization.result }} == 'success' && 
-                ${{ needs.ScanForSecrets.result }} == 'success' && 
-                ${{ needs.EditorConfig.result }} == 'success' && 
-                ${{ needs.PylintJob.result }} == 'success' && 
-                ${{ needs.PythonBlackJob.result }} == 'success' && 
-                ${{ needs.MarkdownLintJob.result }} == 'success' && 
-                ${{ needs.UnitTestSnyk.result }} == 'success' && 
+          if [[ ${{ needs.UpdateKustomization.result }} == 'success' &&
+                ${{ needs.ScanForSecrets.result }} == 'success' &&
+                ${{ needs.EditorConfig.result }} == 'success' &&
+                ${{ needs.PylintJob.result }} == 'success' &&
+                ${{ needs.PythonBlackJob.result }} == 'success' &&
+                ${{ needs.MarkdownLintJob.result }} == 'success' &&
+                ${{ needs.UnitTestSnyk.result }} == 'success' &&
                 ${{ needs.DockerBuildAndPush.result }} == 'success' ]]; then
             curl -X POST -H 'Content-type: application/json' --data '{"text":"Success !!!"}' $SLACK_WEBHOOK_URL
           else
