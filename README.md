@@ -1,5 +1,3 @@
-Here's the revised text with a maximum line length of 75 characters:
-
 # ProjectI
 
 Objective: To automate application development
@@ -35,7 +33,7 @@ Key Technologies:
 
 Project Structure:
 
-- app: Core application code, tests, 
+- app: Core application code, tests,
     dependencies.
 - AnsibleConfig: Ansible configs for EC2
     management and dependencies.
