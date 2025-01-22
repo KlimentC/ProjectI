@@ -1,37 +1,56 @@
+Here's the revised text with a maximum line length of 75 characters:
+
 # ProjectI
 
-Objective: To automate the application development and deployment process using DevOps methodologies.
+Objective: To automate application development 
+and deployment using DevOps methodologies.
 
 Business Value:
 
 Increased Efficiency:
--Automated deployments: Minimize manual intervention, reducing human error and accelerating time-to-market for new features and updates.
--Continuous Integration/Continuous Delivery (CI/CD): Automate the build, test, and deployment pipeline, enabling frequent and reliable releases.
+- Automated deployments: Minimize manual 
+    intervention, reducing human error.
+- CI/CD: Automate build, test, and 
+    deployment for frequent releases.
 Improved Quality:
--Robust testing: Incorporate unit tests and automated testing frameworks to ensure code quality and identify issues early in the development cycle.
--Infrastructure as Code (IaC): Manage and provision infrastructure ( EC2 instances) using Terraform, ensuring consistency and repeatability.
+- Robust testing: Ensure code quality with 
+    unit tests and automated frameworks.
+- IaC: Manage infrastructure (EC2) with 
+    Terraform, ensuring consistency.
 Enhanced Collaboration:
--Shared code repository (GitHub): Facilitate collaboration among developers and streamline code reviews.
+- Shared code repository (GitHub) for 
+    developer collaboration and reviews.
 Cost Optimization:
--Reduced manual effort: Free up developers from repetitive tasks, allowing them to focus on innovation.
+- Reduce manual effort, freeing 
+    developers for innovation.
+
 Key Technologies:
 
--Python: Application development language.
--Terraform: Infrastructure as Code tool for managing AWS resources.
--Flyway: Database migration tool.
--Packer: Tool for building and managing machine images.
--Ansible: Automation platform for configuring and managing IT infrastructure.
--GitHub Actions: CI/CD platform for automating workflows.
+- Python: Application development language.
+- Terraform: IaC for AWS resource management.
+- Flyway: Database migration tool.
+- Packer: Build and manage machine images.
+- Ansible: Automate IT infrastructure.
+- GitHub Actions: CI/CD automation platform.
 
 Project Structure:
 
--app: Contains the core application code, including unit tests, dependencies, etc.
--AnsibleConfig: Holds Ansible configuration files for managing EC2 instances and dependencies.
--deployment: Stores deployment-related configuration (e.g., replicas, port).
--dotFile: Stores editorconfig for consistent code style that is used in the CI process
--IacCpChck: Contains Terraform files for managing EC2 instances from custom AMIs.
--imageBacker: Contains Packer configuration for building custom AMIs.
+- app: Core application code, tests, 
+    dependencies.
+- AnsibleConfig: Ansible configs for EC2 
+    management and dependencies.
+- deployment: Deployment configs 
+    (e.g., replicas, port).
+- dotFile: editorconfig for consistent 
+    code style in CI.
+- IacCpChck: Terraform for EC2 from 
+    custom AMIs.
+- imageBacker: Packer configs for 
+    building custom AMIs.
 
 Conclusion:
 
-By leveraging these DevOps methodologies and technologies, ProjectI aims to showcase efficiency, quality, and reliability of the application development and deployment process, ultimately delivering greater value to the business.
+ProjectI leverages DevOps to enhance 
+efficiency, quality, and reliability of 
+application development and deployment, 
+delivering greater business value.
