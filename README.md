@@ -2,26 +2,26 @@ Here's the revised text with a maximum line length of 75 characters:
 
 # ProjectI
 
-Objective: To automate application development 
+Objective: To automate application development
 and deployment using DevOps methodologies.
 
 Business Value:
 
 Increased Efficiency:
-- Automated deployments: Minimize manual 
+- Automated deployments: Minimize manual
     intervention, reducing human error.
-- CI/CD: Automate build, test, and 
+- CI/CD: Automate build, test, and
     deployment for frequent releases.
 Improved Quality:
-- Robust testing: Ensure code quality with 
+- Robust testing: Ensure code quality with
     unit tests and automated frameworks.
-- IaC: Manage infrastructure (EC2) with 
+- IaC: Manage infrastructure (EC2) with
     Terraform, ensuring consistency.
 Enhanced Collaboration:
-- Shared code repository (GitHub) for 
+- Shared code repository (GitHub) for
     developer collaboration and reviews.
 Cost Optimization:
-- Reduce manual effort, freeing 
+- Reduce manual effort, freeing
     developers for innovation.
 
 Key Technologies:
@@ -37,20 +37,20 @@ Project Structure:
 
 - app: Core application code, tests, 
     dependencies.
-- AnsibleConfig: Ansible configs for EC2 
+- AnsibleConfig: Ansible configs for EC2
     management and dependencies.
-- deployment: Deployment configs 
+- deployment: Deployment configs
     (e.g., replicas, port).
-- dotFile: editorconfig for consistent 
+- dotFile: editorconfig for consistent
     code style in CI.
-- IacCpChck: Terraform for EC2 from 
+- IacCpChck: Terraform for EC2 from
     custom AMIs.
-- imageBacker: Packer configs for 
+- imageBacker: Packer configs for
     building custom AMIs.
 
 Conclusion:
 
-ProjectI leverages DevOps to enhance 
-efficiency, quality, and reliability of 
-application development and deployment, 
+ProjectI leverages DevOps to enhance
+efficiency, quality, and reliability of
+application development and deployment,
 delivering greater business value.
