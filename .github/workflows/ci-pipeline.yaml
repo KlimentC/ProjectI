@@ -11,10 +11,21 @@ on:
 permissions:
   contents: write
 
+env:
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
 jobs:
+  Notify-Start:
+    name: Notify Start
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send notification to Slack
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"GitHub Actions}' $SLACK_WEBHOOK_URL
   ScanForSecrets:
     name: GitLeaks check for secrets
     runs-on: ubuntu-latest
+    needs: Notify-Start
     steps:
       - uses: actions/checkout@v4
         with:
@@ -204,3 +215,22 @@ jobs:
           git add deployment/kustomization.yaml
           git commit -m "Update kustomization.yaml with new image tag $TAG"
           git push
+
+  Notify-Success:
+    name: Notify Success
+    runs-on: ubuntu-latest
+    needs: [UpdateKustomization]
+    if: success()
+    steps:
+      - name: Send success notification to Slack
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Success"}' $SLACK_WEBHOOK_URL
+
+  Notify-Failure:
+    name: Notify Failure
+    runs-on: ubuntu-latest
+    if: failure()
+    steps:
+      - name: Send failure notification to Slack
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Failed"}' $SLACK_WEBHOOK_URL
