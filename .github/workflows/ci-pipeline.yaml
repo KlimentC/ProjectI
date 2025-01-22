@@ -21,7 +21,8 @@ jobs:
     steps:
       - name: Send notification to Slack
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"GitHub Actions}' $SLACK_WEBHOOK_URL
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow has started"}' $SLACK_WEBHOOK_URL
+
   ScanForSecrets:
     name: GitLeaks check for secrets
     runs-on: ubuntu-latest
