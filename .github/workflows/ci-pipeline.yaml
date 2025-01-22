@@ -220,7 +220,7 @@ jobs:
   Notify-Completion:
     name: Notify Completion (Success/Failure)
     runs-on: ubuntu-latest
-    needs: [UpdateKustomization]
+    needs: [UpdateKustomization, ScanForSecrets, EditorConfig, PylintJob, PythonBlackJob, MarkdownLintJob, UnitTestSnyk,DockerBuildAndPush]
     steps:
       - name: Send completion notification to Slack
         run: |
