@@ -225,7 +225,7 @@ jobs:
       - name: Send completion notification to Slack
         run: |
           if [[ ${{ job.status }} == 'success' ]]; then
-            curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow completed"}' $SLACK_WEBHOOK_URL
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"Success !!!"}' $SLACK_WEBHOOK_URL
           else
             curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow failed"}' $SLACK_WEBHOOK_URL
           fi
