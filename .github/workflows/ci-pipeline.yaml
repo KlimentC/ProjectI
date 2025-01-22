@@ -220,13 +220,22 @@ jobs:
   Notify-Completion:
     name: Notify Completion (Success/Failure)
     runs-on: ubuntu-latest
-    needs: [UpdateKustomization, ScanForSecrets, EditorConfig, PylintJob, PythonBlackJob, MarkdownLintJob, UnitTestSnyk,DockerBuildAndPush]
+    needs: [UpdateKustomization, ScanForSecrets, EditorConfig, PylintJob, PythonBlackJob, MarkdownLintJob, UnitTestSnyk, DockerBuildAndPush]
+    if: always()  # Ensures this job runs regardless of previous job results
     steps:
       - name: Send completion notification to Slack
         run: |
-          if [[ ${{ job.status }} == 'success' ]]; then
+          if [[ ${{ needs.UpdateKustomization.result }} == 'success' && 
+                ${{ needs.ScanForSecrets.result }} == 'success' && 
+                ${{ needs.EditorConfig.result }} == 'success' && 
+                ${{ needs.PylintJob.result }} == 'success' && 
+                ${{ needs.PythonBlackJob.result }} == 'success' && 
+                ${{ needs.MarkdownLintJob.result }} == 'success' && 
+                ${{ needs.UnitTestSnyk.result }} == 'success' && 
+                ${{ needs.DockerBuildAndPush.result }} == 'success' ]]; then
             curl -X POST -H 'Content-type: application/json' --data '{"text":"Success !!!"}' $SLACK_WEBHOOK_URL
           else
             curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow failed"}' $SLACK_WEBHOOK_URL
           fi
+
 
