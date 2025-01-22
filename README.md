@@ -7,10 +7,10 @@ Business Value:
 
 Increased Efficiency:
 
-- Automated deployments: Minimize manual
+- Automated deployments: Minimize manual                                                      
     intervention, reducing human error.
 - CI/CD: Automate build, test, and
-    deployment for frequent releases.
+    deployment for frequent releases.                                  
 Improved Quality:
 - Robust testing: Ensure code quality with
     unit tests and automated frameworks.
