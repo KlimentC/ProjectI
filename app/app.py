@@ -1,12 +1,10 @@
 import os
 import json
-import psycopg2
 import boto3
 from flask import Flask, render_template, jsonify, request
 from botocore.exceptions import NoCredentialsError, PartialCredentialsError
 
 app = Flask(__name__)
-
 
 def get_secret(secret_name):
     session = boto3.session.Session()
@@ -15,45 +13,23 @@ def get_secret(secret_name):
     try:
         response = client.get_secret_value(SecretId=secret_name)
         secret = response["SecretString"]
-        return secret
+        return json.loads(secret)
     except (NoCredentialsError, PartialCredentialsError) as e:
         print(f"Error retrieving credentials: {str(e)}")
         return None
 
 
-def get_db_connection():
-    secret = get_secret("postgres-credentials")
-
-    if secret:
-        secret_dict = json.loads(secret)
-        db_user = secret_dict.get("username")
-        db_password = secret_dict.get("password")
-    else:
-        db_user = os.environ.get("DB_USER", "admin")
-        db_password = os.environ.get("DB_PASSWORD", "no")
-
-    try:
-        conn = psycopg2.connect(
-            host=os.environ.get("DB_HOST", "localhost"),
-            dbname=os.environ.get("DB_NAME", "personalinfo"),
-            user=db_user,
-            password=db_password,
-        )
-        return conn
-    except psycopg2.OperationalError as e:
-        print(f"Error connecting to the database: {str(e)}")
-        return None
-
-
 @app.route("/")
 def home():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM info_table")
-    data = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    return render_template("index.html", data=data)
+    secret_name = "postgres-credentials"  # Replace with your secret name
+    secret = get_secret(secret_name)
+
+    if secret:
+        db_user = secret.get("username")
+        db_password = secret.get("password")
+        return render_template("index.html", db_user=db_user, db_password=db_password)
+    else:
+        return "Error retrieving secrets", 500
 
 
 @app.route("/api/greet", methods=["GET"])
