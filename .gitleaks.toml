@@ -12,13 +12,10 @@ report = {
     path = "results.sarif"
 }
 
-# Log level for Gitleaks (can be 'debug', 'info', 'warn', 'error')
 log_level = "debug"
 
-# Define the paths to include/exclude
 allowlist_paths = [
     ".github/workflows/ci-pipeline.yml",
-    "ansible/dockerBPRV.yml",
     "app/app.py"
 ]
 
