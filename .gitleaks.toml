@@ -18,7 +18,8 @@ log_level = "debug"
 # Define the paths to include/exclude
 allowlist_paths = [
     ".github/workflows/ci-pipeline.yml",
-    "ansible/dockerBPRV.yml"
+    "ansible/dockerBPRV.yml",
+    "app/app.py"
 ]
 
 # Ignore merge commits
