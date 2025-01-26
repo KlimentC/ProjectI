@@ -7,4 +7,4 @@ resources:
 images:
 - name: klimentchakarovski/projecti
   newName: klimentchakarovski/projecti
-  newTag: 71057a9d11e81006fd58b7328e8a403781ea0129
+  newTag: bc1e1d8593518634ccdd522f1c195614809ca5fc
