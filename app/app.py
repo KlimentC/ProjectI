@@ -32,13 +32,17 @@ def get_db_connection():
         db_user = os.environ.get("DB_USER", "admin")
         db_password = os.environ.get("DB_PASSWORD", "no")
 
-    conn = psycopg2.connect(
-        host=os.environ.get("DB_HOST", "localhost"),
-        dbname=os.environ.get("DB_NAME", "personalinfo"),
-        user=db_user,
-        password=db_password,
-    )
-    return conn
+    try:
+        conn = psycopg2.connect(
+            host=os.environ.get("DB_HOST", "localhost"),
+            dbname=os.environ.get("DB_NAME", "personalinfo"),
+            user=db_user,
+            password=db_password,
+        )
+        return conn
+    except psycopg2.OperationalError as e:
+        print(f"Error connecting to the database: {str(e)}")
+        return None
 
 
 @app.route("/")
