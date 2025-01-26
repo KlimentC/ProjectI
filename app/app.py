@@ -1,7 +1,7 @@
 import os
+import json
 import psycopg2
 import boto3
-import json
 from flask import Flask, render_template, jsonify, request
 from botocore.exceptions import NoCredentialsError, PartialCredentialsError
 
