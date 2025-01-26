@@ -19,16 +19,3 @@ spec:
           image: klimentchakarovski/projecti
           ports:
             - containerPort: 3000
-          env:
-            - name: DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-credentials-secret
-                  key: username
-                  namespace: external-secrets
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-credentials-secret
-                  key: password
-                  namespace: external-secrets
