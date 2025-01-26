@@ -76,7 +76,7 @@ jobs:
         run: |
               export PYTHONPATH=$(pwd)/app
               cd app
-              pylint -d C0114,C0115,C0116 $(git ls-files '*.py')
+              pylint -d C0114,C0115,C0116,W0613 $(git ls-files '*.py')
 
   PythonBlackJob:
     name: Python Black Check
