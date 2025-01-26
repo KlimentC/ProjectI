@@ -1,5 +1,6 @@
 import unittest
 from app.app import app
+from unittest.mock import patch, MagicMock
 
 
 class TestApp(unittest.TestCase):
@@ -7,13 +8,23 @@ class TestApp(unittest.TestCase):
         """Set up the test client before each test."""
         self.client = app.test_client()
 
-    def test_home_page(self):
+    @patch("app.app.get_db_connection")
+    def test_home_page(self, mock_get_db_connection):
         """Test the root route '/'."""
+        mock_conn = MagicMock()
+        mock_cursor = MagicMock()
+        mock_conn.cursor.return_value = mock_cursor
+        mock_cursor.fetchall.return_value = [(1, "John Doe", "2021-01-01")]
+        mock_get_db_connection.return_value = mock_conn
+
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Welcome to My App!", response.data)
+        self.assertIn(b"John Doe", response.data)
+        self.assertIn(b"2021-01-01", response.data)
 
-    def test_about_page(self):
+    @patch("app.app.get_db_connection")
+    def test_about_page(self, mock_get_db_connection):
         """Test the '/about' route."""
         response = self.client.get("/about")
         self.assertEqual(response.status_code, 200)
