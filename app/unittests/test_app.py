@@ -16,7 +16,7 @@ class TestApp(unittest.TestCase):
         mock_conn = MagicMock()
         mock_cursor = MagicMock()
         mock_conn.cursor.return_value = mock_cursor
-        mock_cursor.fetchall.return_value = [(1, "John Doe", "2021-01-01")]
+        mock_cursor.fetchall.return_value = [(1, "John Doee", "2021-01-01")]
         mock_get_db_connection.return_value = mock_conn
 
         mock_get_db_connection()
