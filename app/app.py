@@ -29,11 +29,11 @@ def get_db_connection():
         db_password = secret_dict.get('password')
     else:
         db_user = os.environ.get("DB_USER", "admin")
-        db_password = os.environ.get("DB_PASSWORD", "no") 
+        db_password = os.environ.get("DB_PASSWORD", "no")
 
     conn = psycopg2.connect(
         host=os.environ.get("DB_HOST", "localhost"),
-        dbname=os.environ.get("DB_NAME", "personalinfo"), 
+        dbname=os.environ.get("DB_NAME", "personalinfo"),
         user=db_user,
         password=db_password
     )
