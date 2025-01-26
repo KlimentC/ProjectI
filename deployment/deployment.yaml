@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: projecti-deployment
+  namespace: projecti
+  labels:
+    app: projecti
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: projecti
+  template:
+    metadata:
+      labels:
+        app: projecti
+    spec:
+      containers:
+        - name: projecti
+          image: klimentchakarovski/projecti
+          ports:
+            - containerPort: 3000
+          env:
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: password
