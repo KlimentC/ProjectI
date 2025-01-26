@@ -3,3 +3,4 @@ pylint
 werkzeug>=3.0.6
 zipp>=3.19.1
 psycopg2-binary
+boto3
