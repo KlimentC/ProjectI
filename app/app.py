@@ -6,6 +6,7 @@ from botocore.exceptions import NoCredentialsError, PartialCredentialsError
 
 app = Flask(__name__)
 
+
 def get_secret(secret_name):
     session = boto3.session.Session()
     client = session.client(service_name="secretsmanager", region_name="us-east-1")
