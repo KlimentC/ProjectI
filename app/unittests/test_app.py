@@ -1,5 +1,4 @@
 import unittest
-from unittest.mock import patch, MagicMock
 from app.app import app
 
 
@@ -8,10 +7,8 @@ class TestApp(unittest.TestCase):
         """Set up the test client before each test."""
         self.client = app.test_client()
 
-    @patch("app.app.get_secret")
-    def test_home_page(self, mock_get_secret):
+    def test_home_page(self):
         """Test the root route '/'."""
-        mock_get_secret.return_value = {"username": "admin", "password": "admin"}
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Welcome to My App!", response.data)
