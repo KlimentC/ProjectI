@@ -16,3 +16,19 @@ indent_size = 4
 # Markdown specific settings
 [*.md]
 trim_trailing_whitespace = false
+
+# Ignore Python cache files
+[*.pyc]
+indent_style = unset
+charset = unset
+end_of_line = unset
+trim_trailing_whitespace = unset
+insert_final_newline = unset
+
+# Ignore files in the `__pycache__` directories
+[**/__pycache__/*]
+indent_style = unset
+charset = unset
+end_of_line = unset
+trim_trailing_whitespace = unset
+insert_final_newline = unset
