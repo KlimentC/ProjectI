@@ -233,7 +233,7 @@ jobs:
           git commit -m "Update kustomization.yaml with new image tag $TAG" || exit 0
           git pull --rebase --autostash origin staging
           git push origin staging
-        
+
 
   Notify-Completion:
     name: Notify Completion (Success/Failure)
