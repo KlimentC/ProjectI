@@ -216,21 +216,24 @@ jobs:
             exit 1
           fi
 
-      - name: Update Kustomize Image
+      - name: Update Kustomize Image (Only on Staging)
+        if: github.ref == 'refs/heads/staging'
         run: |
           TAG=$(git rev-parse HEAD)  # Full SHA
           echo "Using commit SHA: $TAG"
           cd deployment
           kustomize edit set image klimentchakarovski/projecti=klimentchakarovski/projecti:$TAG
 
-      - name: Commit and Push Changes
+      - name: Commit and Push Changes (Only on Staging)
+        if: github.ref == 'refs/heads/staging'
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'actions@github.com'
           git add deployment/kustomization.yaml
           git commit -m "Update kustomization.yaml with new image tag $TAG" || exit 0
-          git pull --rebase  # Avoid conflicts
-          git push
+          git pull --rebase --autostash origin staging
+          git push origin staging
+
 
   Notify-Completion:
     name: Notify Completion (Success/Failure)
